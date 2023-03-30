@@ -19,8 +19,8 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "Applying Per-Session Limits for WebTransport"
+abbrev: "WebTransport Session Limits"
 category: info
 
 docname: draft-todo-yourname-protocol-latest
@@ -45,9 +45,9 @@ venue:
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Martin Thomson
+    organization: Mozilla
+    email: mt@lowentropy.net
 
 normative:
 
@@ -56,8 +56,7 @@ informative:
 
 --- abstract
 
-TODO Abstract
-
+Limits to how a WebTransport session uses QUIC resources like streams or data, can help limit the effect that one WebTransport session can have on other users of the same HTTP/3 connection.
 
 --- middle
 
