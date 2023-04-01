@@ -28,6 +28,10 @@ author:
     fullname: Martin Thomson
     organization: Mozilla
     email: mt@lowentropy.net
+ -
+    fullname: Eric Kinnear
+    organization: Apple Inc.
+    email: ekinnear@apple.com
 
 normative:
   WTH3: I-D.ietf-webtrans-http3
