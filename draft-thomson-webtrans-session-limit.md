@@ -54,7 +54,7 @@ the same HTTP/3 connection.
 WebTransport in HTTP/3 {{WTH3}} provides applications with all the functionality
 of QUIC {{QUIC}} streams.  In the case where a single connection includes a
 WebTransport session that needs to coexist with other WebTransport sessions or
-HTTP usage, the core draft does not offer any way to place limits on stream
+HTTP requests, the core draft does not offer any way to place limits on stream
 usage.
 
 This document describes an additional layer of session-level flow control that
