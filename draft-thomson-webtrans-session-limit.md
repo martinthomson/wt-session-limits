@@ -44,8 +44,10 @@ informative:
 --- abstract
 
 Limits to how a WebTransport session uses QUIC resources like streams or data
-can help limit the effect that one WebTransport session has on other users of
-the same HTTP/3 connection.
+can help limit the effect that one WebTransport session has on other uses of the
+same HTTP/3 connection.  This describes mechanisms for limiting the number of
+streams and quantity of data that can be consumed by each WebTransport session.
+
 
 --- middle
 
@@ -63,6 +65,10 @@ data that can be exchanged in a session.
 
 This document does not define a framework for prioritizing the streams created
 for a WebTransport session with other streams.
+
+Note that this document is intended as input for {{WTH3}}. Although it is
+possible to define this as an extension to that protocol, integration of this
+design is simpler; see {{negotiation}}.
 
 
 # Conventions and Definitions
@@ -132,18 +138,18 @@ prohibited.  Endpoints MUST treat receipt of a WT_MAX_STREAM_DATA or a
 WT_STREAM_DATA_BLOCKED capsule as a session error.
 
 
-# Negotiation
+# Negotiation {#negotiation}
 
-If these capsules are merged into the main specification {{WTH3}}, the use of
-these capsules will be negotiated along with the use of WebTransport over
-HTTP/3.
+If the use of flow control capsules are merged into the main specification
+{{WTH3}}, their use will be negotiated along with the use of WebTransport over
+HTTP/3.  This is the simplest approach.
 
-Alternatively, if this remains as an extension, new HTTP/3 settings will be
-needed to negotiate the use of these features.  In the abstract, we could define
-settings that carry initial values for the three variables that are controlled
-by the session-level flow control capsules defined here.  The presence of any of
-those settings would indicate that these limits will be respected if the capsule
-is sent.
+Alternatively, if this remains as an optional extension, new HTTP/3 settings
+will be needed to negotiate the use of these features.  In the abstract, we
+could define settings that carry initial values for the three variables that are
+controlled by the session-level flow control capsules defined here.  The
+presence of any of those settings would indicate that these limits will be
+respected if the capsule is sent.
 
 Both peers need to indicate the setting before these capsules apply.  If only
 one peer advertises any of these settings, that might indicate that they are
