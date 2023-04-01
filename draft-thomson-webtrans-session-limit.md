@@ -28,6 +28,10 @@ author:
     fullname: Martin Thomson
     organization: Mozilla
     email: mt@lowentropy.net
+ -
+    fullname: Eric Kinnear
+    organization: Apple Inc.
+    email: ekinnear@apple.com
 
 normative:
   WTH3: I-D.ietf-webtrans-http3
@@ -39,18 +43,19 @@ informative:
 
 --- abstract
 
-Limits to how a WebTransport session uses QUIC resources like streams or data,
-can help limit the effect that one WebTransport session can have on other users
-of the same HTTP/3 connection.
+Limits to how a WebTransport session uses QUIC resources like streams or data
+can help limit the effect that one WebTransport session has on other users of
+the same HTTP/3 connection.
 
 --- middle
 
 # Introduction
 
 WebTransport in HTTP/3 {{WTH3}} provides applications with all the functionality
-of QUIC {{QUIC}} streams.  In the case where a single connection includes a WebTransport
-session that needs to coexist on a connection with other sessions or HTTP usage,
-the core draft does not offer any way to place limits on stream usage.
+of QUIC {{QUIC}} streams.  In the case where a single connection includes a
+WebTransport session that needs to coexist with other WebTransport sessions or
+HTTP requests, the core draft does not offer any way to place limits on stream
+usage.
 
 This document describes an additional layer of session-level flow control that
 governs the creation of streams and sets a session-level limit on the amount of
@@ -75,10 +80,11 @@ This document uses the following flow control capsules defined in {{WTH2}}:
 * WT_STREAMS_BLOCKED ({{Section 5.10 of WTH2}})
 
 These capsules are unchanged, except that where the WebTransport over HTTP/2
-capsules refer to streams that flow over the WebTransport session streams, these
-capsules refer to separate limits as described in subsequent sections.
+capsules refer to streams that flow over the HTTP/2 stream containing the
+entire WebTransport session, these capsules refer to separate limits as
+described in subsequent sections.
 
-These capsules use the codepoints allocated in {{WTH3}}.
+These capsules use the codepoints allocated in {{WTH2}}.
 
 
 ## Stream Limits
@@ -88,10 +94,11 @@ WebTransport session.  Like the QUIC MAX_STREAMS frame ({{Section 19.11 of
 QUIC}}), this capsule has two types that provide separate limits for
 unidirectional and bidirectional streams that are initiated by a peer.
 
-This session-level stream limit applies in addition to the QUIC MAX_STREAMS
+The session-level stream limit applies in addition to the QUIC MAX_STREAMS
 frame, which provides a connection-level stream limit.  New streams can only be
-created within the session if both stream- and connection-level limit permit;
-see {{Section 4.6 of QUIC}} for details on how QUIC stream limits are applied.
+created within the session if both the stream- and the connection-level limit
+permit; see {{Section 4.6 of QUIC}} for details on how QUIC stream limits are
+applied.
 
 Unlike the WT_MAX_STREAMS capsule or the QUIC MAX_STREAMS frame, there is no
 simple relationship between the value in this frame and stream IDs in QUIC
@@ -118,10 +125,11 @@ implementation with information about the final size of streams; see {{Section
 The WT_DATA_BLOCKED capsule is sent to indicate that an endpoint was unable to
 send data due to a limit set by the WT_MAX_DATA capsule.
 
-Per-stream data limits are provided by QUIC natively.  The WT_MAX_STREAM_DATA
-and WT_STREAM_DATA_BLOCKED capsules are not used and so are prohibited.  An
-endpoint that receives WT_MAX_STREAM_DATA or WT_STREAM_DATA_BLOCKED MUST treat
-that as a session error.
+Because WebTransport over HTTP/3 uses a native QUIC stream for each WebTransport
+stream, per-stream data limits are provided by QUIC natively.  The
+WT_MAX_STREAM_DATA and WT_STREAM_DATA_BLOCKED capsules are not used and so are
+prohibited.  Endpoints MUST treat receipt of a WT_MAX_STREAM_DATA or a
+WT_STREAM_DATA_BLOCKED capsule as a session error.
 
 
 # Negotiation
