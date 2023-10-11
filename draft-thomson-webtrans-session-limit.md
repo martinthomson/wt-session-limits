@@ -44,9 +44,10 @@ informative:
 --- abstract
 
 Limits to how a WebTransport session uses QUIC resources like streams or data
-can help limit the effect that one WebTransport session has on other uses of the
-same HTTP/3 connection.  This describes mechanisms for limiting the number of
-streams and quantity of data that can be consumed by each WebTransport session.
+can help reduce the effect that one WebTransport session has on other uses of
+the same HTTP/3 connection.  This describes mechanisms for limiting the number
+of streams and quantity of data that can be consumed by each WebTransport
+session.
 
 
 --- middle
@@ -146,8 +147,8 @@ HTTP/3.  This is the simplest approach.
 
 Alternatively, if this remains as an optional extension, new HTTP/3 settings
 will be needed to negotiate the use of these features.  In the abstract, we
-could define settings that carry initial values for the three variables that are
-controlled by the session-level flow control capsules defined here.  The
+could define settings that carry initial values for the three variables that
+are controlled by the session-level flow control capsules defined here.  The
 presence of any of those settings would indicate that these limits will be
 respected if the capsule is sent.
 
