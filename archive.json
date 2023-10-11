@@ -1,0 +1,134 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2023-04-02T00:33:43.791007+00:00",
+  "repo": "martinthomson/wt-session-limits",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOJQYcqM5iYeHH",
+      "title": "Settings for initial limits",
+      "url": "https://github.com/martinthomson/wt-session-limits/issues/2",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Just like we decided for HTTP/2, we probably want to provide some settings for initial values of these flow control limits.  We can use the same settings in HTTP/3 as we end up defining for HTTP/2.",
+      "createdAt": "2023-04-01T18:01:41Z",
+      "updatedAt": "2023-04-01T18:01:41Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOJQYcqM5NZ5CZ",
+      "title": "Update authors and other editorial nits",
+      "url": "https://github.com/martinthomson/wt-session-limits/pull/1",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update authors and other editorial nits",
+      "createdAt": "2023-04-01T09:05:37Z",
+      "updatedAt": "2023-04-01T17:50:37Z",
+      "baseRepository": "martinthomson/wt-session-limits",
+      "baseRefName": "main",
+      "baseRefOid": "b1e3170b9688bb6cad7602f2329c699e86f5906e",
+      "headRepository": "ekinnear/wt-session-limits",
+      "headRefName": "ek/updates",
+      "headRefOid": "949cd1c5a8438c56956fe3a5a965d706d9ac2db9",
+      "closedAt": "2023-04-01T17:50:37Z",
+      "mergedAt": "2023-04-01T17:50:37Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "afc9e495e1f3ddb8ec4f877bbd40fbcc705c95e3"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJQYcqM5RiI4Y",
+          "commit": {
+            "abbreviatedOid": "7385341"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-01T17:49:00Z",
+          "updatedAt": "2023-04-01T17:49:00Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\nHTTP requests, the core draft does not offer any way to place limits on stream\r\n```",
+              "createdAt": "2023-04-01T17:49:00Z",
+              "updatedAt": "2023-04-01T17:49:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJQYcqM5RiI48",
+          "commit": {
+            "abbreviatedOid": "949cd1c"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-04-01T17:49:21Z",
+          "updatedAt": "2023-04-01T17:49:21Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
