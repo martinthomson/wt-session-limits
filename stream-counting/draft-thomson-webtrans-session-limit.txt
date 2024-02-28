@@ -5,8 +5,8 @@
 WebTransport                                                  M. Thomson
 Internet-Draft                                                   Mozilla
 Intended status: Informational                                E. Kinnear
-Expires: 13 April 2024                                        Apple Inc.
-                                                         11 October 2023
+Expires: 31 August 2024                                       Apple Inc.
+                                                        28 February 2024
 
 
               Applying Per-Session Limits for WebTransport
@@ -53,11 +53,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 April 2024.
+   This Internet-Draft will expire on 31 August 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -76,6 +76,7 @@ Table of Contents
    3.  Protocol Definition
      3.1.  Stream Limits
      3.2.  Data Limits
+     3.3.  Ordering and Reliability
    4.  Negotiation
    5.  Security Considerations
    6.  IANA Considerations
@@ -149,6 +150,30 @@ Table of Contents
    stream IDs in QUIC STREAM frames.  This especially applies if there
    are other users of streams on the connection.
 
+   Each endpoint maintains four counters along with each session.  These
+   counters correspond to all combinations of local- and peer-initiated
+   unidirection and bidirectional streams.
+
+   When a stream associated with a session is created, the corresponding
+   counter is increased:
+
+   *  For locally-initiated streams, streams cannot be created if the
+      counter would exceed the corresponding value provided by a peer in
+      the WT_MAX_STREAMS capsule.
+
+   *  For peer-initiated streams, any newly created stream causes the
+      counter to increase by one.  If this exceeds the value sent in a
+      WT_MAX_STREAMS capsule, the endpoint treats that as a protocol
+      violation.  Endpoints MUST close sessions that cause protocol
+      violations and MAY close the entire connection at their
+      discretion.
+
+   An endpoint can send a WT_MAX_STREAMS capsule to increase the limit
+   that applies to their peer.  Sending this capsule is necessary to
+   enable the creation of any streams.  An endpoint that does not
+   require session-level control over streams MAY avoid the need to
+   manage the limit by sending a WT_MAX_STREAMS with a very large value.
+
    The WT_STREAMS_BLOCKED capsule is sent to indicate that an endpoint
    was unable to create a stream due to the session-level stream limit.
 
@@ -175,6 +200,15 @@ Table of Contents
    are not used and so are prohibited.  Endpoints MUST treat receipt of
    a WT_MAX_STREAM_DATA or a WT_STREAM_DATA_BLOCKED capsule as a session
    error.
+
+3.3.  Ordering and Reliability
+
+   Capsules are sent on a reliable, ordered transport.  Therefore, the
+   rules in QUIC regarding reordering of MAX_STREAM frames do not apply.
+   An endpoint MUST NOT send a WT_MAX_STREAMS or WT_MAX_DATA capsule
+   that does not increase the stream or data limit, respectively.  An
+   endpoint MUST treat the receipt of a capsule with the same or lower
+   limit as a previous capsule of the same type as a protocol violation.
 
 4.  Negotiation
 
@@ -225,15 +259,15 @@ Table of Contents
 
    [WTH2]     Frindell, A., Kinnear, E., Pauly, T., Thomson, M.,
               Vasiliev, V., and G. Xie, "WebTransport over HTTP/2", Work
-              in Progress, Internet-Draft, draft-ietf-webtrans-http2-06,
-              10 July 2023, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-webtrans-http2-06>.
+              in Progress, Internet-Draft, draft-ietf-webtrans-http2-07,
+              23 October 2023, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-webtrans-http2-07>.
 
    [WTH3]     Frindell, A., Kinnear, E., and V. Vasiliev, "WebTransport
               over HTTP/3", Work in Progress, Internet-Draft, draft-
-              ietf-webtrans-http3-07, 13 June 2023,
+              ietf-webtrans-http3-08, 23 October 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-
-              webtrans-http3-07>.
+              webtrans-http3-08>.
 
 Acknowledgments
 
