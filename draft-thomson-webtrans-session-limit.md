@@ -114,17 +114,26 @@ the connection.
 
 Each endpoint maintains four counters along with each session.  These counters
 correspond to all combinations of local- and peer-initiated unidirection and
-bidirectional streams.  When a stream associated with a session is created, the
-corresponding counter is increased.
+bidirectional streams.
 
-For locally-initiated streams, streams cannot be created if the counter would
-exceed the corresponding value provided by a peer in the WT_MAX_STREAMS capsule.
+When a stream associated with a session is created, the
+corresponding counter is increased:
 
-For peer-initiated streams, any newly created stream causes the counter to
-increase by one.  If this exceeds the value sent in a WT_MAX_STREAMS capsule,
-the endpoint treats that as a protocol violation.  Endpoints MUST close sessions
-that cause protocol violations and MAY close the entire connection at their
-discretion.
+* For locally-initiated streams, streams cannot be created if the counter would
+  exceed the corresponding value provided by a peer in the WT_MAX_STREAMS
+  capsule.
+
+* For peer-initiated streams, any newly created stream causes the counter to
+  increase by one.  If this exceeds the value sent in a WT_MAX_STREAMS capsule,
+  the endpoint treats that as a protocol violation.  Endpoints MUST close
+  sessions that cause protocol violations and MAY close the entire connection at
+  their discretion.
+
+An endpoint can send a WT_MAX_STREAMS capsule to increase the limit that applies
+to their peer.  Sending this capsule is necessary to enable the creation of any
+streams.  An endpoint that does not require session-level control over streams
+MAY avoid the need to manage the limit by sending a WT_MAX_STREAMS with a very
+large value.
 
 The WT_STREAMS_BLOCKED capsule is sent to indicate that an endpoint was unable
 to create a stream due to the session-level stream limit.
@@ -151,6 +160,17 @@ stream, per-stream data limits are provided by QUIC natively.  The
 WT_MAX_STREAM_DATA and WT_STREAM_DATA_BLOCKED capsules are not used and so are
 prohibited.  Endpoints MUST treat receipt of a WT_MAX_STREAM_DATA or a
 WT_STREAM_DATA_BLOCKED capsule as a session error.
+
+
+## Ordering and Reliability
+
+Capsules are sent on a reliable, ordered transport. Therefore, the rules in QUIC
+regarding reordering of MAX_STREAM frames do not apply.  An endpoint MUST NOT
+send a WT_MAX_STREAMS or WT_MAX_DATA capsule that does not increase the stream
+or data limit, respectively.  An endpoint MUST treat the receipt of a capsule
+with the same or lower limit as a previous capsule of the same type as a
+protocol violation.
+
 
 
 # Negotiation {#negotiation}
