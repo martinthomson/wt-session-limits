@@ -112,6 +112,20 @@ simple relationship between the value in this frame and stream IDs in QUIC
 STREAM frames.  This especially applies if there are other users of streams on
 the connection.
 
+Each endpoint maintains four counters along with each session.  These counters
+correspond to all combinations of local- and peer-initiated unidirection and
+bidirectional streams.  When a stream associated with a session is created, the
+corresponding counter is increased.
+
+For locally-initiated streams, streams cannot be created if the counter would
+exceed the corresponding value provided by a peer in the WT_MAX_STREAMS capsule.
+
+For peer-initiated streams, any newly created stream causes the counter to
+increase by one.  If this exceeds the value sent in a WT_MAX_STREAMS capsule,
+the endpoint treats that as a protocol violation.  Endpoints MUST close sessions
+that cause protocol violations and MAY close the entire connection at their
+discretion.
+
 The WT_STREAMS_BLOCKED capsule is sent to indicate that an endpoint was unable
 to create a stream due to the session-level stream limit.
 
